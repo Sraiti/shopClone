@@ -33,7 +33,7 @@ export function Features() {
               key={index}
               className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-3"
             >
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 flex justify-center items-center h-full">
                 <feature.icon className="w-8 h-8 text-red-600" />
               </div>
               <div>
