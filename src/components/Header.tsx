@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ShoppingCart, Menu, X, Search, User } from "lucide-react";
+import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "./ui/button";
 
 export function Header() {

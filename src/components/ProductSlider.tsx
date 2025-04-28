@@ -62,22 +62,11 @@ const sampleProducts: Product[] = [
 
 export function ProductSlider() {
   const [api, setApi] = useState<any>();
-  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     if (!api) {
       return;
     }
-
-    const handleSelect = () => {
-      setCurrent(api.selectedScrollSnap());
-    };
-
-    api.on("select", handleSelect);
-
-    return () => {
-      api.off("select", handleSelect);
-    };
   }, [api]);
 
   useEffect(() => {
