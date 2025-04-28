@@ -1,0 +1,71 @@
+:root {
+  /* Primary color: Red - for SwissChems branding */
+  --color-primary: 220 38 38; /* Red 600 */
+  --color-primary-light: 239 68 68; /* Red 500 */
+  --color-primary-dark: 185 28 28; /* Red 700 */
+
+  /* Accent color: Amber - for calls to action, highlights */
+  --color-accent: 245 158 11; /* Amber 500 */
+  --color-accent-light: 252 211 77; /* Amber 300 */
+
+  /* Neutral colors for text and backgrounds */
+  --color-neutral-50: 250 250 250;
+  --color-neutral-100: 245 245 245;
+  --color-neutral-200: 229 229 229;
+  --color-neutral-800: 38 38 38;
+  --color-neutral-900: 23 23 23;
+}
+
+/* Make custom colors available to Tailwind */
+.text-primary {
+  color: rgb(var(--color-primary));
+}
+.bg-primary {
+  background-color: rgb(var(--color-primary));
+}
+.border-primary {
+  border-color: rgb(var(--color-primary));
+}
+.text-accent {
+  color: rgb(var(--color-accent));
+}
+.bg-accent {
+  background-color: rgb(var(--color-accent));
+}
+.hover\:text-primary:hover {
+  color: rgb(var(--color-primary));
+}
+.hover\:bg-primary:hover {
+  background-color: rgb(var(--color-primary));
+}
+
+/* Global styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Button overrides */
+.btn-primary {
+  background-color: rgb(var(--color-primary));
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: rgb(var(--color-primary-dark));
+}
+
+.btn-accent {
+  background-color: rgb(var(--color-accent));
+  color: white;
+}
+
+.btn-accent:hover {
+  background-color: rgb(var(--color-accent-light));
+  color: rgb(var(--color-neutral-900));
+}
+
+/* SwissChems branding */
+.swisschems-logo {
+  color: rgb(var(--color-primary));
+}
