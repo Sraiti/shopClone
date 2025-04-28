@@ -1,9 +1,28 @@
 import { useState } from "react";
-import { Menu, X, Search, User } from "lucide-react";
+import { Menu, X, Search, User, ChevronDown, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const toggleDropdown = (name: string) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
+  };
+
+  const menuItems = [
+    { name: "Shop", href: "/shop", hasDropdown: true },
+    { name: "How To Pay", href: "/how-to-pay", hasDropdown: true },
+    { name: "Who we are", href: "/who-we-are", hasDropdown: false },
+    {
+      name: "Independent Test Results",
+      href: "/test-results",
+      hasDropdown: false,
+    },
+    { name: "How To Profit", href: "/how-to-profit", hasDropdown: true },
+    { name: "Contacts", href: "/contacts", hasDropdown: true },
+    { name: "Verify Product", href: "/verify-product", hasDropdown: false },
+  ];
 
   return (
     <header className="bg-black text-white sticky top-0 z-50">
@@ -15,55 +34,20 @@ export function Header() {
           </div>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6">
-          <div className="relative group">
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-6">
+          {menuItems.map((item) => (
             <a
-              href="/shop"
+              key={item.name}
+              href={item.href}
               className="text-sm font-medium hover:text-red-600 transition-colors flex items-center gap-1"
             >
-              Shop
-              <span className="opacity-50">▼</span>
+              {item.name}
+              {item.hasDropdown && (
+                <ChevronDown className="h-4 w-4 opacity-50" />
+              )}
             </a>
-          </div>
-          <a
-            href="/how-to-pay"
-            className="text-sm font-medium hover:text-red-600 transition-colors flex items-center gap-1"
-          >
-            How To Pay
-            <span className="opacity-50">▼</span>
-          </a>
-          <a
-            href="/who-we-are"
-            className="text-sm font-medium hover:text-red-600 transition-colors"
-          >
-            Who we are
-          </a>
-          <a
-            href="/test-results"
-            className="text-sm font-medium hover:text-red-600 transition-colors"
-          >
-            Independent Test Results
-          </a>
-          <a
-            href="/how-to-profit"
-            className="text-sm font-medium hover:text-red-600 transition-colors flex items-center gap-1"
-          >
-            How To Profit
-            <span className="opacity-50">▼</span>
-          </a>
-          <a
-            href="/contacts"
-            className="text-sm font-medium hover:text-red-600 transition-colors flex items-center gap-1"
-          >
-            Contacts
-            <span className="opacity-50">▼</span>
-          </a>
-          <a
-            href="/verify-product"
-            className="text-sm font-medium hover:text-red-600 transition-colors"
-          >
-            Verify Product
-          </a>
+          ))}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -84,9 +68,18 @@ export function Header() {
             <User className="h-5 w-5" />
           </Button>
 
+          <Button
+            variant="outline"
+            size="icon"
+            className="border-gray-700 text-white hover:bg-gray-800"
+          >
+            <ShoppingCart className="h-5 w-5" />
+          </Button>
+
           <button
-            className="md:hidden text-white"
+            className="lg:hidden text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -99,7 +92,7 @@ export function Header() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-gray-900 py-4 px-4 border-t border-gray-800">
+        <div className="lg:hidden bg-gray-900 py-4 px-4 border-t border-gray-800 absolute w-full">
           <div className="relative mb-4">
             <input
               type="text"
@@ -108,49 +101,54 @@ export function Header() {
             />
             <Search className="h-4 w-4 absolute right-3 top-2.5 text-gray-400" />
           </div>
-          <nav className="flex flex-col gap-4">
-            <a
-              href="/shop"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              Shop
-            </a>
-            <a
-              href="/how-to-pay"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              How To Pay
-            </a>
-            <a
-              href="/who-we-are"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              Who we are
-            </a>
-            <a
-              href="/test-results"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              Independent Test Results
-            </a>
-            <a
-              href="/how-to-profit"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              How To Profit
-            </a>
-            <a
-              href="/contacts"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              Contacts
-            </a>
-            <a
-              href="/verify-product"
-              className="text-sm font-medium py-2 hover:text-red-600"
-            >
-              Verify Product
-            </a>
+          <nav className="flex flex-col gap-1">
+            {menuItems.map((item) => (
+              <div key={item.name} className="border-b border-gray-800">
+                <div className="flex justify-between items-center">
+                  <a
+                    href={item.href}
+                    className="text-sm font-medium py-3 hover:text-red-600 flex-grow"
+                  >
+                    {item.name}
+                  </a>
+                  {item.hasDropdown && (
+                    <button
+                      onClick={() => toggleDropdown(item.name)}
+                      className="p-2"
+                      aria-label={`Toggle ${item.name} dropdown`}
+                    >
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform ${
+                          activeDropdown === item.name ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
+                {item.hasDropdown && activeDropdown === item.name && (
+                  <div className="pl-4 pb-2 space-y-2">
+                    <a
+                      href="#"
+                      className="block text-sm py-1 text-gray-400 hover:text-red-600"
+                    >
+                      Submenu Item 1
+                    </a>
+                    <a
+                      href="#"
+                      className="block text-sm py-1 text-gray-400 hover:text-red-600"
+                    >
+                      Submenu Item 2
+                    </a>
+                    <a
+                      href="#"
+                      className="block text-sm py-1 text-gray-400 hover:text-red-600"
+                    >
+                      Submenu Item 3
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))}
           </nav>
         </div>
       )}
